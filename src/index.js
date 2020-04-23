@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 const { mongoUri } = require('../keys/mongoDB');
 
 const authRoutes = require('./routes/authRoutes');
-
+const requireAuth = require('./middlewares/requireAuth')
 //Use mongoose to connect to MongoDB
 
 const app = express();
@@ -28,8 +28,8 @@ mongoose.connection.on('error', (err) => {
 });
 
 //using this for testing jwt
-app.get('/', (req, res) => {
-	res.send('Hi there');
+app.get('/', requireAuth, (req, res) => {
+	res.send(`Your email: ${req.user.email}`);
 });
 
 app.listen(3000, () => {
