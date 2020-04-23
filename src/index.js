@@ -1,11 +1,19 @@
+require('./model/User');
 const express = require('express');
 const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
 
-const {mongoUri} = require('../keys/mongoDB');
+const { mongoUri } = require('../keys/mongoDB');
 
-
+const authRoutes = require('./routes/authRoutes');
 
 //Use mongoose to connect to MongoDB
+
+const app = express();
+
+app.use(bodyParser.json()); // always put this before everthing. This will parse json data from incoming request and place the data as the body property.
+app.use(authRoutes);
+
 mongoose.connect(mongoUri, {
 	useNewUrlParser: true,
 	useCreateIndex: true,
@@ -18,8 +26,6 @@ mongoose.connection.on('connected', () => {
 mongoose.connection.on('error', (err) => {
 	console.error('Connected to MongoDB', err);
 });
-
-const app = express();
 
 app.get('/', (req, res) => {
 	res.send('Hi there');
