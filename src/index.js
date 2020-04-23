@@ -27,6 +27,7 @@ mongoose.connection.on('error', (err) => {
 	console.error('Connected to MongoDB', err);
 });
 
+//using this for testing jwt
 app.get('/', (req, res) => {
 	res.send('Hi there');
 });
