@@ -6,17 +6,16 @@ const bodyParser = require('body-parser');
 
 const { mongoUri } = require('../keys/mongoDB');
 
+const requireAuth = require('./middlewares/requireAuth');
 const authRoutes = require('./routes/authRoutes');
 const trackRoutes = require('./routes/trackRoutes');
-const requireAuth = require('./middlewares/requireAuth');
 //Use mongoose to connect to MongoDB
 
 const app = express();
 
 app.use(bodyParser.json()); // always put this before everthing. This will parse json data from incoming request and place the data as the body property.
 app.use(authRoutes);
-app.use(trackRoutes)
-
+app.use(trackRoutes);
 
 mongoose.connect(mongoUri, {
 	useNewUrlParser: true,
